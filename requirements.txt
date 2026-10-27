@@ -1,0 +1,3 @@
+# Python >= 3.10
+# Только стандартная библиотека Python: tkinter, math, time, unittest.
+# Внешние пакеты не нужны. tkinter должен входить в установку Python.
