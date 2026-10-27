@@ -63,8 +63,8 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/sav05102003-web/polar-heart-animation.git
-cd polar-heart-animation
+git clone https://github.com/sav05102003-web/fin_ppp_sem_3.git
+cd fin_ppp_sem_3/polar-heart-animation
 ```
 
 ### 2. Создание виртуального окружения
@@ -199,6 +199,11 @@ r(θ) = 2 + 1.2cos θ
 Объекты Canvas переиспользуются, поэтому их число не растёт с кадрами.
 
 ## Структура проекта
+
+Этот проект находится в папке `polar-heart-animation/` общего репозитория
+`fin_ppp_sem_3`. Соседняя папка `tkinter-circle-motion/` содержит отдельную
+работу о движении точки по окружности. У каждой работы своя инструкция
+запуска, тесты и окружение.
 
 ```text
 polar-heart-animation/
