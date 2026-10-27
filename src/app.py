@@ -3,6 +3,7 @@
 import tkinter as tk
 from tkinter import ttk
 from time import perf_counter
+from math import tau
 
 from src.models.animation import AnimationModel
 from src.models.figures import FIGURES
@@ -159,7 +160,7 @@ class App:
             "Пауза" if self.model.paused else "Отрисовка"
         )
         self.status.set(
-            f"{state}   |   θ = {self.model.angle:.2f} рад"
+            f"{state}   |   θ = {self.model.angle - tau / 4:.2f} рад"
             f"   |   Δθ = {self.model.last_step:.4f}"
             f"   |   Проход {self.model.cycles + 1}"
         )

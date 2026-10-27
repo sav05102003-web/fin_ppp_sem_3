@@ -19,7 +19,9 @@ class HeartRenderer:
         self.glow = canvas.create_line(0, 0, 0, 0, fill="#47263d", width=14)
         self.halo = canvas.create_line(0, 0, 0, 0, fill="#8c3758", width=5)
         self.line = canvas.create_line(0, 0, 0, 0, fill="#ff779a", width=2)
-        self.marker = canvas.create_oval(0, 0, 0, 0, fill="#ffe1e9", outline="")
+        self.marker = canvas.create_oval(
+            0, 0, 0, 0, fill="#ffe1e9", outline="",
+        )
         self.resize()
 
     def resize(self) -> None:
