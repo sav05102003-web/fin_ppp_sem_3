@@ -54,8 +54,8 @@ python -m tkinter
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/sav05102003-web/tkinter-circle-motion.git
-cd tkinter-circle-motion
+git clone https://github.com/sav05102003-web/fin_ppp_sem_3.git
+cd fin_ppp_sem_3/tkinter-circle-motion
 ```
 
 ### 2. Создание и активация виртуального окружения
@@ -148,6 +148,11 @@ SPEED = 1.0  # рад/с: плюс — по часовой, минус — пр�
 записываются через точку.
 
 ## Структура проекта
+
+Проект находится в папке `tkinter-circle-motion/` общего репозитория
+`fin_ppp_sem_3`. Соседняя папка `polar-heart-animation/` содержит отдельную
+работу с сердцем и другими полярными фигурами. Запускайте команды из папки
+выбранного проекта: у каждой работы собственные модули и тесты.
 
 ```text
 tkinter-circle-motion/
