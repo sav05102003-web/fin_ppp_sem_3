@@ -5,7 +5,7 @@ from tkinter import ttk
 from time import perf_counter
 
 from src.models.animation import AnimationModel
-from src.models.heart import heart_radius
+from src.models.figures import FIGURES
 from src.renderers.heart_renderer import BACKGROUND, HeartRenderer
 from src.widgets.controls import Controls
 
@@ -18,14 +18,17 @@ class App:
         self.root = tk.Tk()
         self.root.title("Сердце в полярных координатах")
         self.root.geometry("1000x760")
-        self.root.minsize(720, 600)
+        self.root.minsize(800, 650)
         self.root.configure(background=BACKGROUND)
         self.model = AnimationModel()
         self._after_id: str | None = None
         self._last_time = perf_counter()
         self._configure_style()
+        self.heading = tk.StringVar(value=FIGURES[0].name)
+        self.equation = tk.StringVar(value=FIGURES[0].equation)
         tk.Label(
-            self.root, text="Сердце", font=("Segoe UI", 26, "bold"),
+            self.root, textvariable=self.heading,
+            font=("Segoe UI", 26, "bold"),
             foreground="#ffe4ec", background=BACKGROUND,
         ).pack(pady=(20, 0))
         tk.Label(
@@ -33,14 +36,19 @@ class App:
             font=("Segoe UI", 11), foreground="#a1a6bc",
             background=BACKGROUND,
         ).pack(pady=(4, 0))
+        tk.Label(
+            self.root, textvariable=self.equation, font=("Segoe UI", 10),
+            foreground="#bba2b9", background=BACKGROUND,
+        ).pack(pady=(8, 0))
         self.canvas = tk.Canvas(
             self.root, background=BACKGROUND, highlightthickness=0,
         )
         self.canvas.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
-        self.renderer = HeartRenderer(self.canvas, heart_radius)
+        self.renderer = HeartRenderer(self.canvas, FIGURES[0].radius)
         self.controls = Controls(
             self.root, self.toggle_pause, self.reset, self.change_mode,
-            self.change_speed,
+            self.change_speed, tuple(figure.name for figure in FIGURES),
+            self.change_figure,
         )
         self.controls.pack(fill=tk.X, padx=28, pady=(4, 14))
         self.status = tk.StringVar()
@@ -55,8 +63,9 @@ class App:
         ).pack(pady=(0, 18))
         self.canvas.bind("<Configure>", self._resize)
         # Обрабатываем горячие клавиши один раз на уровне окна.
-        self.root.bind("<space>", self.toggle_pause)
-        self.root.bind("<KeyPress>", self._on_key)
+        self.root.bind_class("HeartHotkeys", "<space>", self.toggle_pause)
+        self.root.bind_class("HeartHotkeys", "<KeyPress>", self._on_key)
+        self._install_hotkeys(self.root)
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self._render()
 
@@ -103,6 +112,25 @@ class App:
         self.controls.speed_label.configure(
             text=f"Скорость {self.model.speed:.2f}×",
         )
+
+    def change_figure(self, _event: tk.Event | None = None) -> None:
+        """Сменить фигуру и начать новый проход с прежней скоростью."""
+        figure = next(
+            item for item in FIGURES if item.name == self.controls.figure.get()
+        )
+        self.heading.set(figure.name)
+        self.equation.set(figure.equation)
+        self.renderer.set_curve(figure.radius, figure.color)
+        self.model.reset()
+        self._last_time = perf_counter()
+        self._render()
+
+    def _install_hotkeys(self, widget: tk.Misc) -> None:
+        # Обрабатываем пробел до стандартной привязки кнопки, чтобы фокус
+        # на кнопке «Пауза» не вызывал двойное переключение за одно нажатие.
+        widget.bindtags(("HeartHotkeys",) + widget.bindtags())
+        for child in widget.winfo_children():
+            self._install_hotkeys(child)
 
     def close(self) -> None:
         """Отменить отложенный кадр и закрыть окно."""

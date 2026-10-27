@@ -29,8 +29,8 @@ def sample_curve(curve: PolarCurve, samples: int = 1000) -> list[Point]:
     for index in range(samples):
         angle = -tau / 4 + tau * index / samples
         radius = curve(angle)
-        if not isfinite(radius) or radius < 0:
-            raise ValueError("Радиус должен быть конечным и неотрицательным.")
+        if not isfinite(radius):
+            raise ValueError("Радиус должен быть конечным.")
         points.append(polar_to_cartesian(radius, angle))
     points.append(points[0])
     return points

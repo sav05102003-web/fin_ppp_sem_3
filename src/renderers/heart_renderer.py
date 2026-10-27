@@ -41,6 +41,12 @@ class HeartRenderer:
         ]
         self.canvas.coords(self.guide, *self._flatten(self.screen_points))
 
+    def set_curve(self, curve: PolarCurve, color: str) -> None:
+        """Сменить формулу и цвет, сохранив общий алгоритм отрисовки."""
+        self.points = sample_curve(curve)
+        self.canvas.itemconfigure(self.line, fill=color)
+        self.resize()
+
     def draw(self, progress: float = 1.0) -> None:
         """Показать долю контура от нуля до единицы."""
         progress = min(max(progress, 0.0), 1.0)
