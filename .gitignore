@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.work/
+.coverage
+.pytest_cache/
+.ruff_cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# venv/ намеренно отслеживается по техническим требованиям работы.
