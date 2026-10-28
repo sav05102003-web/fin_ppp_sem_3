@@ -38,6 +38,31 @@ def hilbert_points(order: int) -> tuple[Point, ...]:
     return _hilbert(order)
 
 
+@lru_cache(maxsize=5)
+def _peano(order: int) -> tuple[Point, ...]:
+    if order == 0:
+        return ((0, 0),)
+    smaller = _peano(order - 1)
+    size = 3 ** (order - 1)
+    result = []
+    # Девять копий обходятся змейкой по столбцам. Отражения в нечётных
+    # строках/столбцах соединяют выход каждой копии со входом следующей.
+    for column in range(3):
+        rows = range(3) if column % 2 == 0 else range(2, -1, -1)
+        for row in rows:
+            for x, y in smaller:
+                tx = size - 1 - x if row % 2 else x
+                ty = size - 1 - y if column % 2 else y
+                result.append((column * size + tx, row * size + ty))
+    return tuple(result)
+
+
+def peano_points(order: int) -> tuple[Point, ...]:
+    """Вернуть 9**order точек рекурсивной кривой Пеано, order=1..4."""
+    _validate_order(order, 4)
+    return _peano(order)
+
+
 @dataclass(frozen=True)
 class CurveSpec:
     """Алгоритм кривой, основание сетки и допустимая глубина рекурсии."""
@@ -50,4 +75,5 @@ class CurveSpec:
 
 CURVES = {
     "Кривая Гильберта": CurveSpec("Гильберт", 2, 7, hilbert_points),
+    "Кривая Пеано": CurveSpec("Пеано", 3, 4, peano_points),
 }
