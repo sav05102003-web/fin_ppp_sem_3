@@ -92,10 +92,10 @@ Telegram-бот подбирает рецепты по продуктам, со�
 
 ```bash
 git clone https://github.com/sav05102003-web/fin_ppp_sem_3.git
-cd fin_ppp_sem_3/cooking-assistant-bot
+cd "fin_ppp_sem_3/cooking-assistant-bot(3.2)"
 ```
 
-Все последующие команды выполняйте из папки `cooking-assistant-bot`.
+Все последующие команды выполняйте из папки `cooking-assistant-bot(3.2)`.
 
 ### 2. Создание виртуального окружения
 
@@ -260,7 +260,7 @@ python main.py --demo
 ## Структура проекта
 
 ```text
-cooking-assistant-bot/
+cooking-assistant-bot(3.2)/
 ├── .env.example
 ├── .gitattributes
 ├── .gitignore

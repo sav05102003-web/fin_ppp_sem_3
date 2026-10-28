@@ -14,7 +14,7 @@
 
 | Требование | Выполнение |
 | --- | --- |
-| Публичный GitHub-репозиторий | `sav05102003-web/fin_ppp_sem_3`, папка `cooking-assistant-bot` |
+| Публичный GitHub-репозиторий | `sav05102003-web/fin_ppp_sem_3`, папка `cooking-assistant-bot(3.2)` |
 | Использование venv | Создано настоящее окружение Python 3.12.14; тесты запущены его интерпретатором |
 | Не добавлять `venv/` в `.gitignore` | Каркас `venv/` сохранён; библиотечный каталог `site-packages/` восстанавливается из зависимостей |
 | Версии библиотек | `requirements.txt` и `requirements-lock.txt` |
