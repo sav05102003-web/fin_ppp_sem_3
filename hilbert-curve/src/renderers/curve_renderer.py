@@ -35,7 +35,7 @@ class CurveRenderer:
         self._guide = None
 
     def rebuild(self, points, width, height):
-        """Пересоздать масштаб и цветовые участки при выборе кривой/размеров."""
+        """Пересоздать масштаб и цветовые участки при изменении рисунка."""
         self.points = points
         self.screen_points = fit_points(points, width, height)
         self.canvas.delete("curve")

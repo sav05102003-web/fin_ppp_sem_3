@@ -70,8 +70,7 @@ class App:
             style="Subtle.TLabel",
         ).grid(row=2, column=0, columnspan=2, sticky="w")
         self.canvas.bind("<Configure>", self._on_resize)
-        self.root.bind("<space>", self._on_space)
-        self.root.bind("<KeyPress>", self._on_key)
+        self._bind_shortcuts()
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.select_curve()
         self._timer = self.root.after(16, self._tick)
@@ -87,6 +86,20 @@ class App:
         style.configure("TButton", padding=(10, 7))
         style.configure("TProgressbar", background="#17b6a0",
                         troughcolor="#e0e6ef", thickness=5)
+
+    def _bind_shortcuts(self):
+        # Обрабатываем горячие клавиши раньше стандартных привязок ttk:
+        # иначе пробел на кнопке сначала вызывает её, а затем — паузу.
+        tag = "HilbertShortcuts"
+        self.root.bind_class(tag, "<space>", self._on_space)
+        self.root.bind_class(tag, "<KeyPress>", self._on_key)
+
+        def register(widget):
+            widget.bindtags((tag,) + widget.bindtags())
+            for child in widget.winfo_children():
+                register(child)
+
+        register(self.root)
 
     def select_curve(self):
         """Построить выбранную кривую, сохранив скорость и паузу."""
@@ -157,6 +170,8 @@ class App:
         self._resize_timer = self.root.after(60, self._rebuild_renderer)
 
     def _rebuild_renderer(self):
+        if self._resize_timer is not None:
+            self.root.after_cancel(self._resize_timer)
         self._resize_timer = None
         width = max(self.canvas.winfo_width(), 200)
         height = max(self.canvas.winfo_height(), 200)
